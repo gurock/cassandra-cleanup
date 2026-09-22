@@ -17,7 +17,8 @@ if (!is_dir($baseDir) || !is_readable($baseDir)) {
 
 // find prefix dynamically
 $prefix = null;
-$prefixPattern = '/^(\d+)-\d{1,12}(-thumb[12])?$/';
+$idSuffixPattern = '-\d+(-thumb[12])?$';
+$prefixPattern = '/^(\d+)' . $idSuffixPattern . '/';
 
 $iterator = new RecursiveIteratorIterator(
     new RecursiveDirectoryIterator($baseDir, FilesystemIterator::SKIP_DOTS)
@@ -40,7 +41,7 @@ if ($prefix === null) {
     exit(1);
 }
 
-$pattern = '/^' . preg_quote($prefix, '/') . '-[0-9]{1,12}(-thumb[12])?$/';
+$pattern = '/^' . preg_quote($prefix, '/') . $idSuffixPattern . '/';
 
 // confirm about deletion of files
 echo "⚠️ This script will permanently delete old migrated files. ⚠️\n";
